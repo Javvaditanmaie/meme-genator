@@ -1,0 +1,83 @@
+/* Home.css */
+
+.home-container {
+  padding: 40px 20px;
+  background-color: rgba(238, 204, 249, 0.85);
+}
+
+.home-title {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 24px;
+  color: #333;
+}
+
+/* Main scrolling container */
+.slider-container {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  padding: 20px 0;
+}
+
+/* Track that moves left */
+.slider-track {
+  display: flex;
+  width: max-content;
+  animation: scrollLeft 250s linear infinite;
+}
+
+/* Individual meme wrapper */
+.slide {
+  flex: 0 0 auto;
+  margin-right: 20px;
+  scroll-snap-align: start;
+  pointer-events: auto;
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Card styling */
+.card {
+  pointer-events: auto;
+}
+
+/* Ensure buttons are clickable */
+.card button {
+  width: 100px;
+  height: 50px;
+  pointer-events: auto;
+  cursor: pointer;
+  color: rgb(253, 250, 246);
+  background-color: rgb(172, 37, 172);
+  font-size: 20px;
+}
+.snapmeme {
+  text-align: center;
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #efedf0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-shadow: 2px 2px 5px rgba(24, 120, 45, 0.2);
+  letter-spacing: 2px;
+  animation: slideIn 1s ease-out;
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -4,28 +4,25 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useAuth } from "../context/AuthContext";
 
-const MemeCard = (props) => {
+const MemeCard = ({ img, title }) => {
   const navigate = useNavigate();
-  const { user } = useAuth(); // ✅ get current user
+  const { user } = useAuth();
 
-  // ✅ handle edit with login check
   const handleEditClick = () => {
     if (user) {
-      // Logged in → go to edit
-      navigate(`/edit?url=${encodeURIComponent(props.img)}`);
+      navigate(`/edit?url=${encodeURIComponent(img)}`);
     } else {
-      // Not logged in → go to login, preserve redirect back to edit
-      navigate(`/login?redirect=/edit?url=${encodeURIComponent(props.img)}`);
+      const redirectURL = encodeURIComponent(`/edit?url=${img}`);
+      navigate(`/login?redirect=${redirectURL}`);
     }
   };
 
   return (
-    <Card style={{ width: '18rem', margin: '12px' }}>
-      {/* Image Wrapper */}
+    <Card style={{ width: '20rem', height: '400px', margin: '12px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
       <div style={{ height: '250px', overflow: 'hidden' }}>
         <Card.Img
           variant="top"
-          src={props.img}
+          src={img}
           style={{
             height: '100%',
             width: '100%',
@@ -34,14 +31,13 @@ const MemeCard = (props) => {
         />
       </div>
 
-      <Card.Body>
-        <Card.Title>{props.title}</Card.Title>
-        <Button
-          onClick={handleEditClick}
-          variant="primary"
-        >
-          Edit
-        </Button>
+      <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <Card.Title style={{ fontSize: '18px', textAlign: 'center' }}>{title}</Card.Title>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '12px' }}>
+          <Button onClick={handleEditClick} variant="primary">
+            Edit
+          </Button>
+        </div>
       </Card.Body>
     </Card>
   );

@@ -3,9 +3,9 @@ h1 {
   font-family: 'Segoe UI', sans-serif;
   font-size: 3rem;
   text-align: center;
-  color: #3f3f3f;
+  color: #e7ddeb;
   margin-bottom: 30px;
-  background: linear-gradient(to right, #00c6ff, #0a1b31);
+  background: linear-gradient(to right, #b9efd0, #e2dcee);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: 1px;

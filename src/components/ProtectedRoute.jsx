@@ -1,13 +1,14 @@
+// components/ProtectedRoute.js
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const ProtectedRoute = ({ children }) => {
-  const { user } = useAuth();
+  const { currentUser } = useAuth();
   const location = useLocation();
 
-  if (!user) {
-    return <Navigate to={`/login?redirect=${location.pathname + location.search}`} />;
+  if (!currentUser) {
+    return <Navigate to={`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`} replace />;
   }
 
   return children;

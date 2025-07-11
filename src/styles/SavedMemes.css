@@ -1,0 +1,82 @@
+/* SavedMemes.css */
+.saved-memes-container {
+  padding: 40px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  min-height: 100vh;
+}
+
+.saved-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #4c6ef5;
+  margin-bottom: 24px;
+}
+
+.back-button {
+  margin-bottom: 30px;
+}
+
+.saved-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.saved-card {
+  width: 300px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  transition: transform 0.2s;
+}
+
+.saved-card:hover {
+  transform: scale(1.03);
+}
+
+.saved-img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+.saved-card button {
+  width: 100%;
+  margin-top: 8px;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* Style for Edit Again button */
+.saved-card button:nth-child(2) {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+/* Style for Delete button */
+.saved-card button:nth-child(3) {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}
+
+/* Hover effects */
+.saved-card button:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+
+.saved-grid::-webkit-scrollbar {
+  display: none; /* Hide scrollbar in Chrome/Safari */
+}
+
+
+
+
