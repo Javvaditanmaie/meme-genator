@@ -1,24 +1,37 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../styles/SavedMemes.css";
 import domtoimage from "dom-to-image-more";
 import axios from "axios";
+import { auth } from "../firebase";
 
 const SavedMemes = () => {
   const [saved, setSaved] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const memes = JSON.parse(localStorage.getItem("savedMemes")) || [];
-    setSaved(memes);
-  }, []);
+  const fetchSavedMemes = async () => {
+    const userId = auth.currentUser?.uid;
+    if (!userId) return;
+    const res = await axios.get(`http://localhost:5000/api/memes?userId=${userId}`);
+    setSaved(res.data.memes);
+  };
+  fetchSavedMemes();
+}, []);
+
 
   const handleDelete = async (id) => {
-  await fetch(`http://localhost:5000/api/memes/${id}`, {
-    method: "DELETE",
-  });
-  setSaved(saved.filter((meme) => meme._id !== id));
+  try {
+    const res = await axios.delete(`http://localhost:5000/api/memes/${id}`);
+    if (res.data.success) {
+      setSaved((prev) => prev.filter((meme) => meme._id !== id));
+    } else {
+      console.error("Delete failed on backend");
+    }
+  } catch (err) {
+    console.error("Failed to delete meme:", err);
+  }
 };
 
   const handleDownload = (memeId) => {
@@ -39,11 +52,6 @@ const SavedMemes = () => {
         console.error("Download failed:", err);
       });
   };
-  useEffect(() => {
-  axios.get("http://localhost:5000/api/memes").then((res) => {
-    setSaved(res.data.memes);
-  });
-}, []);
 
   return (
     <div className="saved-memes-container">
@@ -63,8 +71,8 @@ const SavedMemes = () => {
       ) : (
         <div className="saved-grid">
           {saved.map((meme) => (
-            <div className="saved-card" key={meme.id}>
-              <div id={`meme-${meme.id}`} style={{ position: "relative" }}>
+            <div className="saved-card" key={meme._id}>
+              <div id={`meme-${meme._id}`} style={{ position: "relative" }}>
                 <img
                   src={meme.url}
                   alt="Saved Meme"
@@ -87,7 +95,7 @@ const SavedMemes = () => {
                 <Button
                   variant="outline-danger"
                   size="sm"
-                  onClick={() => handleDelete(meme.id)}
+                  onClick={() => handleDelete(meme._id)}
                 >
                   Delete
                 </Button>
@@ -95,7 +103,7 @@ const SavedMemes = () => {
                 <Button
                   variant="outline-success"
                   size="sm"
-                  onClick={() => handleDownload(meme.id)}
+                  onClick={() => handleDownload(meme._id)}
                 >
                   Download
                 </Button>

@@ -16,6 +16,8 @@ const Editpage = () => {
   const [saveMessage, setSaveMessage] = useState("");
   const memeRef = createRef();
   const navigate = useNavigate();
+  // const user = auth.currentUser;
+  //  const userName = user?.displayName || user?.email || "User";
 
   useEffect(() => {
     // Load all meme templates
@@ -97,32 +99,35 @@ const Editpage = () => {
   //     });
   // };
 
-const handleSave = () => {
-  if (!memeRef.current) return;
+const handleSave = async () => {
+  const userId = auth.currentUser?.uid;
+  if (!memeRef.current || !userId) return;
 
-  domtoimage
-    .toJpeg(memeRef.current, { quality: 0.95 })
-    .then(async (dataUrl) => {
-      // Save to MongoDB
-      await axios.post("http://localhost:5000/api/memes", {
-        url: dataUrl,
-      });
+  try {
+    const dataUrl = await domtoimage.toJpeg(memeRef.current, { quality: 0.95 });
 
-      // Download image
-      const link = document.createElement("a");
-      link.href = dataUrl;
-      link.download = "meme.jpeg";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    // Save to MongoDB
+    await axios.post("http://localhost:5000/api/memes", {
+      url: dataUrl,
+      userId,
+    });
 
-      setSaveMessage(" Meme saved to database!");
-      setTimeout(() => setSaveMessage(""), 3000);
-    })
-    .catch((err) => {
-  console.error("Save failed:", err.response ? err.response.data : err.message);
-  setSaveMessage("❌ Failed to save meme.");
-});
+    // Optional: Download image
+    const link = document.createElement("a");
+    link.href = dataUrl;
+    link.download = "meme.jpeg";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    setSaveMessage("Meme saved to database!");
+    setTimeout(() => setSaveMessage(""), 3000);
+  } catch (err) {
+    console.error("Save failed:", err);
+    setSaveMessage("Failed to save meme.");
+  }
+
+
 
 };
 
@@ -137,11 +142,15 @@ const handleSave = () => {
       {/* Top Buttons */}
       <div className="d-flex justify-content-between align-items-center px-4 py-2">
         <div className="d-flex gap-2 ms-auto">
+          {/* <h4 style={{ textAlign: "center", marginTop: "20px" }}>
+  Welcome, {userName}
+</h4> */}
+
           <Button onClick={handleUpload} variant="primary">Upload Meme</Button>
           <Button onClick={handleLogout} variant="danger">Sign Out</Button>
         </div>
       </div>
-
+      
       {/* Meme Editor */}
       <div
         className="meme-box"
@@ -171,7 +180,7 @@ const handleSave = () => {
         <Button onClick={addText} variant="info" className="mx-2">Add Text</Button>
         <Button onClick={handleSave} variant="success" className="mx-2">Save</Button>
         <Button onClick={goToSavedMemes} variant="dark" className="mx-2">Saved Memes</Button>
-        <Button onClick={() => navigate("/")} variant="secondary" className="mx-2">Go Home</Button>
+        {/* <Button onClick={() => navigate("/")} variant="secondary" className="mx-2">Go Home</Button> */}
       </div>
 
       {/* Meme Template Slider */}
