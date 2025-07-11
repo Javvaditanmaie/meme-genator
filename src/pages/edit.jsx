@@ -103,12 +103,12 @@ const handleSave = () => {
   domtoimage
     .toJpeg(memeRef.current, { quality: 0.95 })
     .then(async (dataUrl) => {
-      // ✅ Save meme to MongoDB
+      // Save to MongoDB
       await axios.post("http://localhost:5000/api/memes", {
         url: dataUrl,
       });
 
-      // ✅ Download image
+      // Download image
       const link = document.createElement("a");
       link.href = dataUrl;
       link.download = "meme.jpeg";
@@ -120,10 +120,12 @@ const handleSave = () => {
       setTimeout(() => setSaveMessage(""), 3000);
     })
     .catch((err) => {
-      console.error("Save failed:", err);
-      setSaveMessage(" Failed to save meme.");
-    });
+  console.error("Save failed:", err.response ? err.response.data : err.message);
+  setSaveMessage("❌ Failed to save meme.");
+});
+
 };
+
 
   const goToSavedMemes = () => {
     sessionStorage.setItem("currentMeme", image);

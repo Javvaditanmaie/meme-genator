@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import "../styles/SavedMemes.css";
 import domtoimage from "dom-to-image-more";
+import axios from "axios";
 
 const SavedMemes = () => {
   const [saved, setSaved] = useState([]);
@@ -13,11 +14,12 @@ const SavedMemes = () => {
     setSaved(memes);
   }, []);
 
-  const handleDelete = (id) => {
-    const updated = saved.filter((meme) => meme.id !== id);
-    setSaved(updated);
-    localStorage.setItem("savedMemes", JSON.stringify(updated));
-  };
+  const handleDelete = async (id) => {
+  await fetch(`http://localhost:5000/api/memes/${id}`, {
+    method: "DELETE",
+  });
+  setSaved(saved.filter((meme) => meme._id !== id));
+};
 
   const handleDownload = (memeId) => {
     const element = document.getElementById(`meme-${memeId}`);
