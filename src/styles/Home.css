@@ -50,6 +50,7 @@
 }
 
 /* Ensure buttons are clickable */
+
 .card button {
   width: 100px;
   height: 50px;
@@ -58,7 +59,15 @@
   color: rgb(253, 250, 246);
   background-color: rgb(172, 37, 172);
   font-size: 20px;
+  border: none;
+  transition: background-color 0.3s ease; /* smooth transition */
 }
+
+/* Add this for hover effect */
+.card button:hover {
+  background-color: rgb(142, 185, 36); /* darker purple on hover */
+}
+
 .snapmeme {
   text-align: center;
   font-size: 48px;

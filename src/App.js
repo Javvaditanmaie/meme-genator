@@ -9,7 +9,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import SavedMemes from './pages/SavedMemes';
-
+import ForgotPassword from "./pages/forgot-password"; 
 const AppContent = () => {
   const location = useLocation();
   const showHeader = location.pathname === "/";
@@ -26,6 +26,7 @@ const AppContent = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/saved" element={<SavedMemes />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
     </div>
   );

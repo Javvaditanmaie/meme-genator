@@ -32,9 +32,9 @@ const MemeCard = ({ img, title }) => {
       </div>
 
       <Card.Body style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-        <Card.Title style={{ fontSize: '18px', textAlign: 'center' }}>{title}</Card.Title>
+        <Card.Title style={{ fontSize: '18px', textAlign: 'center'}}>{title}</Card.Title>
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '12px' }}>
-          <Button onClick={handleEditClick} variant="primary">
+          <Button onClick={handleEditClick} variant="primary" >
             Edit
           </Button>
         </div>
